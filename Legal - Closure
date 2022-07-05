@@ -1,0 +1,205 @@
+#Selenium para abrir o Chrome
+
+import pandas as pd
+import time
+from selenium import webdriver
+from openpyxl import Workbook
+from pykeepass import PyKeePass
+
+#from selenium.webdriver.common.keys import Keys
+
+driver = webdriver.Edge(executable_path=r'//Diretoria Juridico/Prevencao a Fraudes/01 - GERENCIA DE ESTRATEGIA ANTIFRAUDE/41 - AUTOMAÇÕES/Libs_python/msedgedriver.exe')
+driver.get('https://outsystemsprd.elaw.com.br/BancoPanAuthentication/Authentication.aspx?');
+
+#Login_Legal_Platform
+login_pan = driver.find_element_by_xpath('/html/body/form/div[3]/div/div/div[1]/div/div[2]')
+login_pan.click()
+time.sleep(3)
+
+#Credentials_Legal_Platform
+
+login_elpan = driver.find_element_by_id('userNameInput')
+login_elpan.clear()
+login_elpan.send_keys('')
+
+pswrd_elpan = driver.find_element_by_id('passwordInput')
+pswrd_elpan.clear()
+pswrd_elpan.send_keys('')
+
+etn = driver.find_element_by_id('submitButton')
+etn.click()
+time.sleep(1)
+
+#Conexão com os registros via Excel/SQL e couting dos Números de Processos
+df = pd.read_excel('Fechamento_Robo_2430.xls', usecols=[0])
+for index, row in df.iterrows():
+
+ 
+
+    #Triagem do Processo através do Número de Processo
+
+    processo = str(row['NUMERO_PROCESSO'])
+
+    texto = driver.find_element_by_id('j_id_12:j_id_14_input')
+
+    texto.clear()
+
+    texto.send_keys(processo)
+
+    time.sleep(8)
+
+    proc = driver.find_element_by_css_selector('#j_id_12\:j_id_14_panel > ul')
+
+    proc.click()
+
+    time.sleep(6)
+
+ 
+
+    #Descrição
+
+    desc = driver.find_element_by_id('tabViewProcesso:j_id_gy_4_1_3_1j:dtAgendamentoResults:j_id_gy_4_1_3_27:6')
+
+    desc.click()
+
+    time.sleep(5)
+
+   
+
+    #Botão Confirmar
+
+    conf = driver.find_element_by_xpath('/html/body/div[1]/div[3]/div[1]/div[5]/div/div/div/div[2]/span/form[5]/div/div[2]/div/div/div[2]/div/div[2]/table/tbody/tr[12]/td[12]/button[3]/span[1]')
+
+    conf.click()
+
+    time.sleep(8)
+
+ 
+
+    #Solicitação
+
+    sol = driver.find_element_by_id('j_id_74_2_5_5_1_1_2_1_1_1:id4fieldTextArea')
+
+    sol.clear()
+
+    sol.send_keys("Prezados, por favor, cadastre o contrato corretamente. Atente-se que, se for proposta cancelada, não caberá nenhuma análise.")
+
+   
+
+    #Solicitação Pertence à área solicitada?
+
+    sol2 = driver.find_element_by_xpath("/html/body/div[1]/div[3]/div[1]/div[2]/div[2]/form[5]/div[2]/div/table/tbody/tr[5]/td[2]/table/tbody/tr/td/table/tbody/tr[1]/td/table/tbody/tr/td[1]/div/label")
+
+    sol2.click()
+
+    time.sleep(3)
+
+    sol22 = driver.find_element_by_id("j_id_74_2_6_5_1_1_2_1_2_1:id5pgTypeSelectField1CombosCombo_1")
+
+    sol22.click()
+
+    time.sleep(3)
+
+ 
+
+    #Resposta Subsídios
+
+    res = driver.find_element_by_id('j_id_74_2_8_5_1_1_2_1_1_1:id7fieldTextArea')
+
+    res.clear()
+
+    res.send_keys("Prezados, por favor, cadastre o contrato corretamente. Atente-se que, se for proposta cancelada, não caberá nenhuma análise.")
+
+ 
+
+    #Objetivo Cível - 2
+
+ 
+
+    #Causa Real 1
+
+    a = driver.find_element_by_xpath("/html/body/div[1]/div[3]/div[1]/div[2]/div[2]/form[5]/div[2]/div/table/tbody/tr[8]/td[2]/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr[1]/td[2]/div/label")
+
+    a.click()
+
+    time.sleep(1)
+
+    a1 = driver.find_element_by_id("j_id_74_2_9_5_1_1_2_1_1_1:id8comboSelect5Level1_10")
+
+    a1.click()
+
+    time.sleep(4)
+
+ 
+
+    #Causa Real 2
+
+    b = driver.find_element_by_xpath("/html/body/div[1]/div[3]/div[1]/div[2]/div[2]/form[5]/div[2]/div/table/tbody/tr[8]/td[2]/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr[2]/td[2]/div/label")
+
+    b.click()
+
+    time.sleep(1)
+
+    b1 = driver.find_element_by_id("j_id_74_2_9_5_1_1_2_1_1_1:id8comboSelect5Level2_1")
+
+    b1.click()
+
+    time.sleep(4)
+
+ 
+
+     #Causa Real 3
+
+    c = driver.find_element_by_xpath("/html/body/div[1]/div[3]/div[1]/div[2]/div[2]/form[5]/div[2]/div/table/tbody/tr[8]/td[2]/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr[3]/td[2]/div/label")
+
+    c.click()
+
+    time.sleep(1)
+
+    c1 = driver.find_element_by_id("j_id_74_2_9_5_1_1_2_1_1_1:id8comboSelect5Level3_1")
+
+    c1.click()
+
+    time.sleep(4)
+
+ 
+
+    #Causa Real 4
+
+    d = driver.find_element_by_xpath("/html/body/div[1]/div[3]/div[1]/div[2]/div[2]/form[5]/div[2]/div/table/tbody/tr[8]/td[2]/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr[4]/td[2]/div/label")
+
+    d.click()
+
+    time.sleep(1)
+
+    d1 = driver.find_element_by_id('j_id_74_2_9_5_1_1_2_1_1_1:id8comboSelect5Level4_1')
+
+    d1.click()
+
+    time.sleep(4)
+
+ 
+
+    #Causa Real 5
+
+    e = driver.find_element_by_xpath("/html/body/div[1]/div[3]/div[1]/div[2]/div[2]/form[5]/div[2]/div/table/tbody/tr[8]/td[2]/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr[5]/td[2]/div/label")
+
+    e.click()
+
+    time.sleep(1)
+
+    e1 = driver.find_element_by_id("j_id_74_2_9_5_1_1_2_1_1_1:id8comboSelect5Level5_1")
+
+    e1.click()
+
+    time.sleep(4)
+
+ 
+
+    #Botão Confirmar
+
+    confi = driver.find_element_by_id('btnConfirmaSim')
+
+    confi.click()
+
+    time.sleep(4)
